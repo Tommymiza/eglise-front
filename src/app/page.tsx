@@ -1,10 +1,5 @@
-import Login from "@/components/authentication/login";
-import Layout from "@/components/layout/Layout";
+import Login from "@/components/pages/authentication/login";
 
 export default function Home() {
-  return (
-    <Layout>
-      <Login />
-    </Layout>
-  );
+  return <Login />;
 }

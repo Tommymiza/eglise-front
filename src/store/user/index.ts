@@ -11,7 +11,7 @@ const userStore = create<UserStore>((set) => ({
   createUser: async (user) => {
     try {
       set({ loading: true });
-      const response = await axios.post(`/users`, user);
+      const response = await axios.post(`/user`, user);
       toast.success("Utilisateur créé avec succès");
       return response.data;
     } catch (error: any) {
@@ -24,7 +24,7 @@ const userStore = create<UserStore>((set) => ({
   updateUser: async ({ id, user }) => {
     try {
       set({ loading: true });
-      const response = await axios.put(`/users/${id}`, user);
+      const response = await axios.patch(`/user/${id}`, user);
       set({ user: null });
       toast.success("Utilisateur modifié avec succès");
       return response.data;
@@ -37,7 +37,7 @@ const userStore = create<UserStore>((set) => ({
   },
   deleteUser: async (id) => {
     try {
-      const response = await axios.delete(`/users/${id}`);
+      const response = await axios.delete(`/user/${id}`);
       toast.success("Utilisateur supprimé avec succès");
       return response.data;
     } catch (error: any) {
@@ -45,10 +45,16 @@ const userStore = create<UserStore>((set) => ({
       throw error;
     }
   },
-  getUser: async (id) => {
+  getUser: async (id, args) => {
     try {
       set({ loading: true });
-      const response = await axios.get(`/users/${id}`);
+      let params: any = {};
+      if (args) {
+        params = {
+          args: JSON.stringify(args),
+        };
+      }
+      const response = await axios.get(`/user/${id}`, { params });
       set({ user: response.data });
       return response.data;
     } catch (error) {
@@ -57,10 +63,14 @@ const userStore = create<UserStore>((set) => ({
       set({ loading: false });
     }
   },
-  getUsers: async () => {
+  getUsers: async (args) => {
     try {
       set({ loading: true });
-      const response = await axios.get(`/users`);
+      let params: any = {};
+      if (args) {
+        params = { args: JSON.stringify(args) };
+      }
+      const response = await axios.get(`/user`, { params });
       set({ userList: response.data });
       return response.data;
     } catch (error) {

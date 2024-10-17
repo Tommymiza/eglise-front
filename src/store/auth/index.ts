@@ -8,9 +8,9 @@ const authStore = create<AuthStore>((set) => ({
   loading: true,
   login: async (data) => {
     try {
-      const response = await axios.post(`/login`, data);
+      const response = await axios.post(`/auth/login`, data);
       const token = response.data.token;
-      localStorage.setItem("auth", token);
+      localStorage.setItem("jwt", token);
       toast.success("Utilisateur connécté!");
     } catch (error: any) {
       toast.error(error.response.data.error);
@@ -25,22 +25,22 @@ const authStore = create<AuthStore>((set) => ({
           token,
         });
         const login = response.data.auth;
-        localStorage.setItem("auth", login);
+        localStorage.setItem("jwt", login);
         console.log(login);
         axios.defaults.headers.common["Authorization"] = `Bearer ${login}`;
-        const res = await axios.get(`/users/me/`);
+        const res = await axios.get(`/user/me/`);
         const user = res.data;
         set({ auth: user });
         return;
       }
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-      const response = await axios.get(`/users/me/`);
+      ] = `Bearer ${localStorage.getItem("jwt")}`;
+      const response = await axios.get(`/auth/me/`);
       const user = response.data;
       set({ auth: user });
     } catch (error) {
-      localStorage.removeItem("auth");
+      localStorage.removeItem("jwt");
       throw error;
     } finally {
       set({ loading: false });
@@ -48,7 +48,9 @@ const authStore = create<AuthStore>((set) => ({
   },
   getMe: async () => {
     try {
-      const response = await axios.get(`/users/me`);
+      const token = localStorage.getItem("jwt");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.get(`/auth/me`);
       const user = response.data;
       set({ auth: user });
     } catch (error) {
@@ -71,17 +73,17 @@ const authStore = create<AuthStore>((set) => ({
   updatePassword: async (data) => {
     try {
       await axios.post(`/auth/reset`, data);
-      toast.success("Password changed successfully!");
+      toast.success("Mot de passe changé avec succès!");
     } catch (error) {
       throw error;
     }
   },
   logout: async () => {
     try {
-      await axios.post(`/users/logout`);
       delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem("auth");
+      localStorage.removeItem("jwt");
       set({ auth: null });
+      window.location.href = "/";
     } catch (error: any) {
       toast.error(error.response.data.error);
       throw error;

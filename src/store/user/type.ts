@@ -1,23 +1,15 @@
-import { ClientItem } from "../client/type";
-import { DocumentItem } from "../file/type";
-import { GroupItem } from "../group/type";
-import { UrifrontItem } from "../urifront/type";
-
 export type UserItem = {
-  id: number;
+  id: string;
   name: string;
   email: string;
-  image?: string | null;
-  password?: string;
-  client?: ClientItem;
-  c_pass?: string;
-  group_id: number;
-  group: GroupItem;
-  uriFronts?: UrifrontItem[];
-  document?: DocumentItem[];
-  is_active: boolean;
-  date_desactivated?: string | null;
+  role: Role;
+  image: string | null;
+  isActive: boolean;
+  createdAt: string;
 };
+
+export type Role = "ADMIN" | "EVEQUE" | "PRETRE" | "APV";
+export type Genre = "H" | "F";
 
 export type UserStore = {
   user: UserItem | null;
@@ -29,12 +21,12 @@ export type UserStore = {
     id,
     user,
   }: {
-    id: number;
-    user: Partial<UserItem> & { password: string; c_password: string };
+    id: string;
+    user: Partial<UserItem>;
   }) => Promise<UserItem>;
-  deleteUser: (id: number) => Promise<UserItem>;
-  getUser: (id: number) => Promise<UserItem>;
-  getUsers: () => Promise<UserItem[]>;
-  editUser: (id: number) => Promise<any>;
+  deleteUser: (id: string) => Promise<UserItem>;
+  getUser: (id: string, args?: any) => Promise<UserItem>;
+  getUsers: (args?: any) => Promise<UserItem[]>;
+  editUser: (id: string) => Promise<any>;
   cancelEdit: () => void;
 };

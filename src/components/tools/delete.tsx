@@ -10,17 +10,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 
 export default function DeleteConfirm({ fn }: { fn: () => void }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          variant={"ghost"}
-          className="p-2 w-[40px] h-[40px] text-red-500 hover:text-red-600"
-        >
-          <Trash2 size={20} />
+        <Button variant="ghost" size={"icon"}>
+          <Trash2Icon className="w-4 h-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -34,11 +31,11 @@ export default function DeleteConfirm({ fn }: { fn: () => void }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>
+          <AlertDialogCancel asChild>
             <Button variant={"destructive"}>Annuler</Button>
           </AlertDialogCancel>
-          <AlertDialogAction onClick={fn}>
-            <Button variant={"primary"}>Confirmer</Button>
+          <AlertDialogAction asChild>
+            <Button onClick={fn}>Confirmer</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -95,7 +95,7 @@ const FormLabel = React.forwardRef<
       ref={ref}
       className={cn(
         error && "text-red-500 dark:text-red-900",
-        "text-[#373E67] " + className
+        "text-[#5f6bb1] dark:text-white " + className
       )}
       htmlFor={formItemId}
       {...props}
@@ -137,7 +137,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn("text-sm text-slate-500 dark:text-slate-400", className)}
+      className={cn("text-sm text-slate-500 dark:text-white", className)}
       {...props}
     />
   );

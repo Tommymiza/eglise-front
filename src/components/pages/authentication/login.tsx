@@ -6,27 +6,22 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import authStore from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 
 export default function Login() {
-  const router = useRouter();
-  const { login, check } = authStore();
+  const { login, auth, getMe } = authStore();
 
   const FormSchema = z.object({
-    email: z.string().min(2, {
-      message: "Nom d'utilisateur doit être plus de 2 caractères",
-    }),
+    email: z.string().email("Email invalide").min(1, "Email obligatoire"),
     password: z.string().min(6, {
       message: "Le mot de passe doit être plus de 6 caractères",
     }),
@@ -43,24 +38,41 @@ export default function Login() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       await login(data);
-      await check();
+      getMe();
     } catch (error) {
-      toast.error("E-mail ou mot de passe incorrect");
+      console.log(error);
     }
   }
+
+  if (auth) {
+    window.location.href = "/dashboard";
+  }
+
+  useEffect(() => {
+    async function getConnectedUser() {
+      try {
+        await getMe();
+      } catch (error) {
+        console.log(error);
+        if (window.location.pathname !== "/") window.location.href = "/";
+      }
+    }
+    getConnectedUser();
+  }, []);
+
   return (
-    <div className="w-full h-[100vh] bg-[#E3ECF5] flex flex-row justify-center items-center">
-      <div className="flex flex-row rounded-[16px] shadow-lg overflow-hidden w-3/5">
-        <div className="w-1/2 bg-[#F6FAFF] px-16 py-14 flex flex-col items-center justify-center gap-5">
+    <div className="w-full h-[100vh] bg-[#E3ECF5] flex flex-row justify-center items-center dark:bg-zinc-900">
+      <div className="flex flex-row rounded-[16px] shadow-lg overflow-hidden w-3/5 max-lg:w-4/5">
+        <div className="w-1/2 max-lg:w-full bg-[#F6FAFF] px-16 py-14 flex flex-col items-center justify-center gap-5 dark:bg-zinc-800">
           <Image
-            src="/image/digitEformLogo.png"
+            src="/image/logo.png"
             className="object-contain"
             quality={100}
             alt="logo"
             width={200}
             height={100}
           />
-          <h2 className="scroll-m-20 text-[#1B204A] text-center text-2xl font-semibold tracking-tight">
+          <h2 className="scroll-m-20 text-slate-900 text-center text-2xl font-semibold tracking-tight dark:text-white">
             Authentification
           </h2>
           <Form {...form}>
@@ -73,9 +85,8 @@ export default function Login() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
-                      <Input type="text" {...field} />
+                      <Input type="email" {...field} placeholder="Email" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -87,41 +98,35 @@ export default function Login() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mot de passe</FormLabel>
                       <FormControl>
-                        <Input type="password" {...field} />
+                        <Input
+                          type="password"
+                          {...field}
+                          placeholder="Mot de passe"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="text-right">
+                <div className="text-right mt-2">
                   <Link
                     href={"/compte/forgotpassword"}
-                    className="text-[#2A9DDE] font-medium text-sm"
+                    className="text-slate-900 font-medium text-sm"
                   >
                     Mot de passe oublié ?
                   </Link>
                 </div>
               </div>
-              <Button type="submit" variant="primary" className="w-full mt-2">
+              <Button type="submit" className="w-full mt-2">
                 Connexion
               </Button>
-              <div className="text-center text-[12px]">
-                Vous n&apos;avez pas encore un compte&nbsp;?&nbsp;
-                <Link
-                  href={"/compte/newcompte"}
-                  className="text-[#2A9DDE] font-medium underline"
-                >
-                  Créer
-                </Link>
-              </div>
             </form>
           </Form>
         </div>
-        <div className="w-1/2 bg-white  flex items-center justify-center">
+        <div className="w-1/2 bg-white  flex items-center justify-center max-lg:hidden">
           <Image
-            src="/image/camoi.png"
+            src="/image/login.png"
             className="object-contain rounded-md"
             quality={100}
             alt="logo"
