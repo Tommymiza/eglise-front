@@ -38,6 +38,12 @@ export type ChristianStore = {
   createChristian: (
     christian: Partial<ChristianItem>
   ) => Promise<ChristianItem>;
+  createManyChristianSacrament: (data: {
+    selected: ChristianItem[];
+    sacrament_id: string;
+    createdAt: string;
+    church_id: string;
+  }) => Promise<ChristianSacrament>;
   updateChristian: ({
     id,
     christian,

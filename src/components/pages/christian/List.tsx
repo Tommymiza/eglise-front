@@ -11,6 +11,7 @@ export default function ListChristian() {
     getChristians({
       include: {
         apv: true,
+        sacraments: true,
       },
     });
     getChurchs({

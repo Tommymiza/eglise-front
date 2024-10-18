@@ -21,6 +21,31 @@ const christianStore = create<ChristianStore>((set) => ({
       set({ loading: false });
     }
   },
+  createManyChristianSacrament: async ({
+    selected,
+    sacrament_id,
+    createdAt,
+    church_id,
+  }) => {
+    try {
+      set({ loading: true });
+      const response = await axios.post(`/christian-sacrament/many`, {
+        data: selected.map((item) => ({
+          christian_id: item.id,
+          sacrament_id,
+          church_id,
+          createdAt,
+        })),
+      });
+      toast.success("Sacrament ajouté avec succès");
+      return response.data;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      throw error;
+    } finally {
+      set({ loading: false });
+    }
+  },
   updateChristian: async ({ id, christian }) => {
     try {
       set({ loading: true });

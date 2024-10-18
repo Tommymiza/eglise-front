@@ -14,6 +14,11 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
+import {
+  Dialog,
+  DialogBody,
+  DialogTitle,
+} from "@/components/tools/custom-dialog";
 import DeleteConfirm from "@/components/tools/delete";
 import FormDialog from "@/components/tools/dialog";
 import { Button } from "@/components/ui/button";
@@ -35,6 +40,7 @@ import christianStore from "@/store/christian";
 import { ChristianItem } from "@/store/christian/type";
 import { Edit2Icon, Plus } from "lucide-react";
 import AddFormChristian from "../form/form";
+import SacramentForm from "../form/sacrament-form";
 
 export function DataTable({
   data,
@@ -53,6 +59,7 @@ export function DataTable({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [open, setOpen] = React.useState(false);
+  const [openSacrament, setOpenSacrament] = React.useState(false);
 
   const table = useReactTable({
     data,
@@ -93,7 +100,7 @@ export function DataTable({
       console.log(error);
     }
   };
-
+  const selected = table.getSelectedRowModel().rows.map((r) => r.original);
   return (
     <div className="w-full relative">
       <div className="flex items-center py-4 justify-between">
@@ -101,19 +108,37 @@ export function DataTable({
         <div className="flex items-center gap-2">
           <Input
             placeholder="Filtrer..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={
+              (table.getColumn("fullname")?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn("fullname")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
+          {selected.length > 0 && (
+            <Button
+              variant={"secondary"}
+              onClick={() => setOpenSacrament(true)}
+            >
+              <Plus className="w-4" />
+              Sacrament
+            </Button>
+          )}
           <Button onClick={() => setOpen(true)}>
             <Plus className="w-4" />
             Ajout
           </Button>
+
           <FormDialog open={open} close={handleClose}>
             <AddFormChristian />
           </FormDialog>
+          <Dialog open={openSacrament} onClose={() => setOpenSacrament(false)}>
+            <DialogTitle>Sacrament</DialogTitle>
+            <DialogBody>
+              <SacramentForm selected={selected} />
+            </DialogBody>
+          </Dialog>
         </div>
       </div>
 
@@ -187,6 +212,7 @@ export function DataTable({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} de{" "}
           {table.getFilteredRowModel().rows.length} lignes
         </div>
         <div className="space-x-2">
