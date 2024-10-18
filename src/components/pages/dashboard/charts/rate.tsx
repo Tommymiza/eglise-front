@@ -60,7 +60,7 @@ const RateSacrament = () => {
   useEffect(() => {
     const rate =
       (christianList.filter((item) =>
-        item.sacraments.some((sac) => sac.sacrament_id === sacrament)
+        item.sacraments?.some((sac) => sac.sacrament_id === sacrament)
       ).length /
         christianList.length) *
       100;

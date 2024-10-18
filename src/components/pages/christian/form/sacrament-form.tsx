@@ -31,7 +31,7 @@ export default function SacramentForm({
     try {
       const realChristian = selected.filter(
         (item) =>
-          !item.sacraments.some((c) => c.sacrament_id === values.sacrament_id)
+          !item.sacraments?.some((c) => c.sacrament_id === values.sacrament_id)
       );
       if (realChristian.length !== 0) {
         await createManyChristianSacrament({

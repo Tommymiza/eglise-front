@@ -71,7 +71,7 @@ export default function SacramentChart() {
   useEffect(() => {
     const newData = sacramentList.map((sacrament) => ({
       name: sacrament.name,
-      length: sacrament.christians.filter((c) => c.church_id.includes(church))
+      length: sacrament.christians?.filter((c) => c.church_id.includes(church))
         .length,
     }));
     setData(newData);

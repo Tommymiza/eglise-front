@@ -88,7 +88,6 @@ export default function UserActif() {
                 innerRadius={80}
                 outerRadius={120}
                 fill="#8884d8"
-                paddingAngle={5}
                 dataKey="value"
               >
                 {data.map((entry, index) => (
