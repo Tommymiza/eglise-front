@@ -1,6 +1,9 @@
 "use client";
 
+import ChangePassword from "@/components/pages/authentication/change-password";
 import { Avatar } from "@/components/tools/avatar";
+import AvatarItems from "@/components/tools/avatar-items";
+import FormDialog from "@/components/tools/dialog";
 import {
   Dropdown,
   DropdownButton,
@@ -22,7 +25,6 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from "@/components/tools/sidebar";
-import SignoutBtn from "@/components/tools/sign-out";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { sidebarRoutes } from "@/config/route";
 import authStore from "@/store/auth";
@@ -76,12 +78,14 @@ function MobileSidebar({
 }
 function AccountDropdownMenu({
   anchor,
+  setOpen,
 }: {
   anchor: "top start" | "bottom end";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
-      <SignoutBtn />
+      <AvatarItems setOpen={setOpen} />
     </DropdownMenu>
   );
 }
@@ -90,6 +94,7 @@ export function SidebarLayout({ children }: React.PropsWithChildren<{}>) {
   let [showSidebar, setShowSidebar] = useState(false);
   const pathname = usePathname();
   const { auth } = authStore();
+  const [open, setOpen] = useState(false);
   return (
     <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
       {/* Sidebar on desktop */}
@@ -126,6 +131,9 @@ export function SidebarLayout({ children }: React.PropsWithChildren<{}>) {
 
             <SidebarSpacer />
           </SidebarBody>
+          <FormDialog open={open} close={() => setOpen(false)}>
+            <ChangePassword />
+          </FormDialog>
 
           <SidebarFooter className="max-lg:hidden">
             <Dropdown>
@@ -148,7 +156,7 @@ export function SidebarLayout({ children }: React.PropsWithChildren<{}>) {
                 </span>
                 <ChevronUpIcon />
               </DropdownButton>
-              <AccountDropdownMenu anchor="top start" />
+              <AccountDropdownMenu anchor="top start" setOpen={setOpen} />
             </Dropdown>
           </SidebarFooter>
         </Sidebar>
@@ -207,7 +215,7 @@ export function SidebarLayout({ children }: React.PropsWithChildren<{}>) {
                 </span>
                 <ChevronUpIcon />
               </DropdownButton>
-              <AccountDropdownMenu anchor="top start" />
+              <AccountDropdownMenu anchor="top start" setOpen={setOpen} />
             </Dropdown>
           </SidebarFooter>
         </Sidebar>
@@ -231,7 +239,7 @@ export function SidebarLayout({ children }: React.PropsWithChildren<{}>) {
                 <DropdownButton as={NavbarItem}>
                   <Avatar src={auth?.image ?? "/image/avatar.jpg"} square />
                 </DropdownButton>
-                <AccountDropdownMenu anchor="bottom end" />
+                <AccountDropdownMenu anchor="bottom end" setOpen={setOpen} />
               </Dropdown>
             </NavbarSection>
           </Navbar>

@@ -60,7 +60,7 @@ export default function AddFormApv() {
   return (
     <div className="p-4 relative">
       <h1 className="text-xl font-bold text-center">
-        {apv ? "Modifier" : "Ajouter"} un APV
+        {apv ? "Modifier" : "Ajouter"} un APF
       </h1>
       <form onSubmit={handleSubmit(submit)} className="p-4 flex flex-col gap-4">
         <div className="flex flex-col gap-2">

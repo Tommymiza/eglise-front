@@ -13,6 +13,9 @@ export type AuthStore = {
   register: (user: Partial<UserItem>) => Promise<UserItem>;
   logout: () => Promise<any>;
   check: (token?: string) => Promise<any>;
-  updatePassword: (data: { new: string }) => Promise<any>;
+  updatePassword: (data: {
+    password: string;
+    c_password: string;
+  }) => Promise<any>;
   getMe: () => Promise<any>;
 };

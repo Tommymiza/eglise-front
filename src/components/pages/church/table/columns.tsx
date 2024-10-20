@@ -52,4 +52,8 @@ export const columns: ColumnDef<ChurchItem>[] = [
     },
     enableSorting: true,
   },
+  {
+    accessorFn: (row) => row.apvs?.length,
+    header: "APF",
+  },
 ];

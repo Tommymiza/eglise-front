@@ -70,6 +70,16 @@ const christianStore = create<ChristianStore>((set) => ({
       throw error;
     }
   },
+  deleteSacrament: async (id) => {
+    try {
+      const response = await axios.delete(`/christian-sacrament/${id}`);
+      toast.success("Sacrament enlevé avec succès");
+      return response.data;
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      throw error;
+    }
+  },
   getChristian: async (id, args) => {
     try {
       set({ loading: true });

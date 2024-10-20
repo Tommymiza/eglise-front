@@ -88,6 +88,11 @@ export function DataTable({
     getChristian(id, {
       include: {
         apv: true,
+        sacraments: {
+          include: {
+            sacrament: true,
+          },
+        },
       },
     });
     setOpen(true);

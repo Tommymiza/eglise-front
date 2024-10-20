@@ -76,7 +76,7 @@ const RateSacrament = () => {
     ]);
   }, [christianList, sacrament]);
   return (
-    <div className="flex flex-col gap-6 border p-2 w-1/2 dark:border-zinc-800 border-slate-200 rounded-md">
+    <div className="flex flex-col gap-6 border p-2 w-1/2 max-md:w-full dark:border-zinc-800 border-slate-200 rounded-md">
       <div className="flex justify-between w-full items-center p-2">
         <h1 className="font-bold text-lg">Taux des sacraments</h1>
         <Select

@@ -6,7 +6,11 @@ import { columns } from "./table/columns";
 export default function ListChurch() {
   const { churchList, getChurchs } = churchStore();
   useEffect(() => {
-    getChurchs();
+    getChurchs({
+      include: {
+        apvs: true,
+      },
+    });
   }, []);
   return <DataTable columns={columns} data={churchList} />;
 }

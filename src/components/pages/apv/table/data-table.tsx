@@ -92,7 +92,7 @@ export function DataTable({
   return (
     <div className="w-full relative">
       <div className="flex items-center py-4 justify-between">
-        <h1 className="font-bold text-xl">Liste des APVs</h1>
+        <h1 className="font-bold text-xl">Liste des APF</h1>
         <div className="flex items-center gap-2">
           <Input
             placeholder="Filtrer..."

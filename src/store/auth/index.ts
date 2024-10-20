@@ -55,6 +55,8 @@ const authStore = create<AuthStore>((set) => ({
       set({ auth: user });
     } catch (error) {
       throw error;
+    } finally {
+      set({ loading: false });
     }
   },
   register: async (data) => {

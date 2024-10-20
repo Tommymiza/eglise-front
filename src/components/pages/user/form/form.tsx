@@ -1,6 +1,7 @@
 "use client";
 import { ErrorMessage } from "@/components/tools/error-message";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import userStore from "@/store/user";
 import { Select } from "@headlessui/react";
@@ -15,6 +16,7 @@ const schema = z.object({
   role: z.enum(["ADMIN", "EVEQUE", "PRETRE", "APV"], {
     message: "Rôle invalide",
   }),
+  isActive: z.boolean(),
 });
 type UserSchema = z.infer<typeof schema>;
 
@@ -34,6 +36,7 @@ export default function AddFormUser() {
         name: "",
         email: "",
         role: undefined,
+        isActive: false,
       });
       cancelEdit();
     } catch (error) {
@@ -43,6 +46,8 @@ export default function AddFormUser() {
   const {
     handleSubmit,
     register,
+    watch,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<UserSchema>({
@@ -83,6 +88,19 @@ export default function AddFormUser() {
             <option value="APV">APV</option>
           </Select>
           {errors?.role && <ErrorMessage>{errors?.role?.message}</ErrorMessage>}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row gap-2 items-center p-2">
+            <Checkbox
+              checked={watch("isActive")}
+              onCheckedChange={(c) =>
+                c !== "indeterminate"
+                  ? setValue("isActive", c)
+                  : setValue("isActive", false)
+              }
+            />
+            <p className="font-semibold">ACTIF</p>
+          </div>
         </div>
         <Button type="submit" disabled={loading}>
           Enregistrer

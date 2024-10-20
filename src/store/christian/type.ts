@@ -52,6 +52,7 @@ export type ChristianStore = {
     christian: Partial<ChristianItem>;
   }) => Promise<ChristianItem>;
   deleteChristian: (id: string) => Promise<ChristianItem>;
+  deleteSacrament: (id: string) => Promise<ChristianSacrament>;
   getChristian: (id: string, args?: any) => Promise<ChristianItem>;
   getChristians: (args?: any) => Promise<ChristianItem[]>;
   editChristian: (id: string) => Promise<any>;

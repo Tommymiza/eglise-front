@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import ChipSacrament from "./chip-sacrament";
 
 const schema = z.object({
   name: z.string().trim().min(1, { message: "Nom invalide" }),
@@ -161,7 +162,7 @@ export default function AddFormChristian() {
             <option value="">Sélectionner un APV</option>
             {churchList
               .find((c) => c.id === churchId)
-              ?.apvs.map((apv) => (
+              ?.apvs?.map((apv) => (
                 <option key={apv.id} value={apv.id}>
                   {apv.name}
                 </option>
@@ -171,6 +172,13 @@ export default function AddFormChristian() {
             <ErrorMessage>{errors?.apv_id?.message}</ErrorMessage>
           )}
         </div>
+        {christian && christian.sacraments?.length > 0 && (
+          <div className="flex flex-row gap-2 flex-wrap">
+            {christian.sacraments.map((i) => (
+              <ChipSacrament key={i.id} item={i} />
+            ))}
+          </div>
+        )}
         <Button type="submit" disabled={loading}>
           Enregistrer
         </Button>

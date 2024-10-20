@@ -18,6 +18,7 @@ export default function Dashboard() {
     getChristians({
       include: {
         sacraments: true,
+        apv: true,
       },
     });
     getSacraments({
@@ -31,11 +32,11 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col w-full gap-4">
       <h1 className="font-bold text-xl">Tableau de bord</h1>
-      <div className="flex flex-row gap-4 w-full justify-between">
+      <div className="flex flex-row gap-4 w-full justify-between max-md:justify-center max-md:flex-wrap">
         <Christian />
         <SacramentRate />
       </div>
-      <div className="flex flex-row gap-4 w-full justify-between">
+      <div className="flex flex-row gap-4 w-full justify-between max-md:justify-center max-md:flex-wrap">
         <UserActif />
         <SacramentChart />
       </div>

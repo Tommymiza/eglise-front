@@ -25,7 +25,7 @@ export const sidebarRoutes: SidebarRoutesType[] = [
     icon: Church,
   },
   {
-    label: "APV",
+    label: "APF",
     href: "/apv",
     icon: MapPin,
   },

@@ -30,7 +30,7 @@ export default function FormDialog({
       >
         <div className="flex h-full flex-col rounded-lg bg-white shadow-sm ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
           <div className="-mb-3 px-4 pt-3">
-            <CloseButton aria-label="Close navigation">
+            <CloseButton aria-label="Close navigation" onClick={close}>
               <CloseMenuIcon />
             </CloseButton>
           </div>
