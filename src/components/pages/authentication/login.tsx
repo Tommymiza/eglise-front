@@ -113,7 +113,7 @@ export default function Login() {
                 />
                 <div className="text-right mt-2">
                   <Link
-                    href={"/compte/forgotpassword"}
+                    href={"/"}
                     className="text-slate-900 font-medium text-sm"
                   >
                     Mot de passe oublié ?
