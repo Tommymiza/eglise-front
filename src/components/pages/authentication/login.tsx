@@ -12,7 +12,6 @@ import { Toaster } from "@/components/ui/sonner";
 import authStore from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -111,14 +110,14 @@ export default function Login() {
                     </FormItem>
                   )}
                 />
-                <div className="text-right mt-2">
+                {/* <div className="text-right mt-2">
                   <Link
                     href={"/"}
                     className="text-slate-900 font-medium text-sm"
                   >
                     Mot de passe oublié ?
                   </Link>
-                </div>
+                </div> */}
               </div>
               <Button type="submit" className="w-full mt-2">
                 Connexion
