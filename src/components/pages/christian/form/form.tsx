@@ -21,6 +21,7 @@ const schema = z.object({
     message: "Genre invalide",
   }),
   birthdate: z.string().date("Date de naissance invalide"),
+  createdAt: z.string().date("Date d'ajout invalide"),
   church_id: z.string().optional(),
   apv_id: z.string().uuid("APV invalide"),
 });
@@ -44,6 +45,7 @@ export default function AddFormChristian() {
         surname: values.surname,
         genre: values.genre,
         birthdate: new Date(values.birthdate).toISOString(),
+        createdAt: new Date(values.createdAt).toISOString(),
         apv_id: values.apv_id,
       };
       if (christian) {
@@ -57,6 +59,7 @@ export default function AddFormChristian() {
         surname: "",
         genre: "H",
         birthdate: "",
+        createdAt: format(new Date(), "yyyy-MM-dd"),
         church_id: "",
         apv_id: "",
       });
@@ -75,6 +78,15 @@ export default function AddFormChristian() {
   } = useForm<ChristianSchema>({
     resolver: zodResolver(schema),
     mode: "onChange",
+    defaultValues: {
+      name: "",
+      surname: "",
+      genre: "H",
+      birthdate: "",
+      createdAt: format(new Date(), "yyyy-MM-dd"),
+      church_id: "",
+      apv_id: "",
+    },
   });
   useEffect(() => {
     if (christian) {
@@ -82,6 +94,7 @@ export default function AddFormChristian() {
         ...christian,
         genre: christian.genre === "H" ? "H" : "F",
         birthdate: format(new Date(christian.birthdate), "yyyy-MM-dd"),
+        createdAt: format(new Date(christian.createdAt), "yyyy-MM-dd"),
         church_id: christian.apv.church_id,
       });
     }
@@ -129,13 +142,27 @@ export default function AddFormChristian() {
           )}
         </div>
         <div className="flex flex-col gap-2">
+          <Label htmlFor="birthdate">Date de naissance</Label>
           <Input
             type="date"
+            id="birthdate"
             placeholder="Date de naissance"
             {...register("birthdate")}
           />
           {errors?.birthdate && (
             <ErrorMessage>{errors?.birthdate?.message}</ErrorMessage>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="createdAt">Date d'ajout</Label>
+          <Input
+            type="date"
+            id="createdAt"
+            placeholder="Date d'ajout"
+            {...register("createdAt")}
+          />
+          {errors?.createdAt && (
+            <ErrorMessage>{errors?.createdAt?.message}</ErrorMessage>
           )}
         </div>
         <div className="flex flex-col gap-2">
@@ -159,7 +186,7 @@ export default function AddFormChristian() {
             {...register("apv_id")}
             className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-slate-950 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:ring-offset-slate-950 dark:file:text-slate-50 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300"
           >
-            <option value="">Sélectionner un APV</option>
+            <option value="">Sélectionner un APF</option>
             {churchList
               .find((c) => c.id === churchId)
               ?.apvs?.map((apv) => (

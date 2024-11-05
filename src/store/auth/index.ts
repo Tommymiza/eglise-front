@@ -13,7 +13,7 @@ const authStore = create<AuthStore>((set) => ({
       localStorage.setItem("jwt", token);
       toast.success("Utilisateur connécté!");
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.message);
       throw error;
     }
   },
@@ -87,7 +87,7 @@ const authStore = create<AuthStore>((set) => ({
       set({ auth: null });
       window.location.href = "/";
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.message);
       throw error;
     }
   },

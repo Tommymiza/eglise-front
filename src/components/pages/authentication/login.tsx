@@ -8,6 +8,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Toaster } from "@/components/ui/sonner";
 import authStore from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -62,6 +63,7 @@ export default function Login() {
 
   return (
     <div className="w-full h-[100vh] bg-[#E3ECF5] flex flex-row justify-center items-center dark:bg-zinc-900">
+      <Toaster richColors position="top-right" />
       <div className="flex flex-row rounded-[16px] shadow-lg overflow-hidden w-3/5 max-lg:w-4/5">
         <div className="w-1/2 max-lg:w-full bg-[#F6FAFF] px-16 py-14 flex flex-col items-center justify-center gap-5 dark:bg-zinc-800">
           <Image
